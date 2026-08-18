@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="DetalleNomina"
+              pageWidth="396"
+              pageHeight="595"
+              columnWidth="356"
+              leftMargin="20"
+              rightMargin="20"
+              topMargin="20"
+              bottomMargin="20"
+              uuid="a1b2c3d4-1111-2222-3333-444455556666">
+
+    <!-- ==================== PARAMETERS ==================== -->
+    <!-- Optional: ruta al logo de la empresa -->
+    <parameter name="LOGO_PATH" class="java.lang.String" isForPrompting="false"/>
+    <parameter name="TITULO_REPORTE" class="java.lang.String" isForPrompting="false">
+        <defaultValueExpression><![CDATA["Detalle de Nómina"]]></defaultValueExpression>
+    </parameter>
+
+    <!-- ==================== FIELDS ====================
+         Coinciden con las columnas de tu fuente de datos
+         (List<NominaDTO> o consulta SQL) -->
+    <field name="nombreEmpleado" class="java.lang.String"/>
+    <field name="salarioBase" class="java.math.BigDecimal"/>
+    <field name="bonificaciones" class="java.math.BigDecimal"/>
+    <field name="afp" class="java.math.BigDecimal"/>
+    <field name="ars" class="java.math.BigDecimal"/>
+    <field name="isr" class="java.math.BigDecimal"/>
+    <field name="otras" class="java.math.BigDecimal"/>
+    <field name="totalDescuentos" class="java.math.BigDecimal"/>
+    <field name="salarioNeto" class="java.math.BigDecimal"/>
+
+    <!-- ==================== VARIABLES (opcional, por si NO envías totalDescuentos/salarioNeto calculados) ==================== -->
+    <variable name="totalDescuentosCalc" class="java.math.BigDecimal" calculation="Nothing">
+        <variableExpression><![CDATA[$F{afp}.add($F{ars}).add($F{isr}).add($F{otras})]]></variableExpression>
+    </variable>
+    <variable name="salarioNetoCalc" class="java.math.BigDecimal" calculation="Nothing">
+        <variableExpression><![CDATA[$F{salarioBase}.add($F{bonificaciones}).subtract($V{totalDescuentosCalc})]]></variableExpression>
+    </variable>
+
+    <background>
+        <band/>
+    </background>
+
+    <title>
+        <band height="20"/>
+    </title>
+
+    <detail>
+        <band height="470" splitType="Stretch">
+
+            <!-- Marco exterior -->
+            <element kind="rectangle" uuid="00000000-0000-0000-0000-000000000001"
+                     x="0" y="0" width="356" height="450" radius="0">
+                <pen lineWidth="1.0" lineColor="#333333"/>
+            </element>
+
+            <!-- Título -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000002"
+                     x="10" y="15" width="336" height="30"
+                     hTextAlign="Center" vTextAlign="Middle">
+                <text><![CDATA[Detalle de Nómina]]></text>
+                <box>
+                    <topPen lineWidth="0.0"/>
+                    <leftPen lineWidth="0.0"/>
+                    <bottomPen lineWidth="0.0"/>
+                    <rightPen lineWidth="0.0"/>
+                </box>
+                <font fontName="SansSerif" size="18" isBold="true"/>
+            </element>
+
+            <!-- Subtítulo "Empleado" -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000003"
+                     x="10" y="50" width="336" height="20"
+                     hTextAlign="Center" vTextAlign="Middle">
+                <text><![CDATA[Empleado]]></text>
+                <font fontName="SansSerif" size="12" isBold="true" isItalic="true"/>
+            </element>
+
+            <!-- Nombre del empleado -->
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000004"
+                     x="10" y="80" width="336" height="20"
+                     hTextAlign="Left" vTextAlign="Middle">
+                <expression><![CDATA[$F{nombreEmpleado}]]></expression>
+                <font fontName="SansSerif" size="12" isBold="true" isItalic="true" isUnderline="true"/>
+            </element>
+
+            <!-- Línea separadora -->
+            <element kind="line" uuid="00000000-0000-0000-0000-000000000005"
+                     x="10" y="102" width="336" height="1">
+                <pen lineWidth="1.5" lineColor="#000000"/>
+            </element>
+
+            <!-- ===== Salario Base ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000010"
+                     x="10" y="120" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[Salario Base]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000011"
+                     x="140" y="120" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000012"
+                     x="175" y="118" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{salarioBase}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="10"/>
+            </element>
+
+            <!-- ===== Bonificaciones ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000020"
+                     x="10" y="160" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[Bonificaciones]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000021"
+                     x="140" y="160" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000022"
+                     x="175" y="158" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{bonificaciones}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="10"/>
+            </element>
+
+            <!-- ===== AFP ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000030"
+                     x="10" y="205" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[AFP]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000031"
+                     x="140" y="205" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000032"
+                     x="175" y="203" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{afp}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="10"/>
+            </element>
+
+            <!-- ===== ARS ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000040"
+                     x="10" y="235" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[ARS]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000041"
+                     x="140" y="235" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000042"
+                     x="175" y="233" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{ars}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="10"/>
+            </element>
+
+            <!-- ===== ISR ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000050"
+                     x="10" y="265" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[ISR]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000051"
+                     x="140" y="265" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000052"
+                     x="175" y="263" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{isr}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="10"/>
+            </element>
+
+            <!-- ===== Otras ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000060"
+                     x="10" y="295" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[Otras]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000061"
+                     x="140" y="295" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000062"
+                     x="175" y="293" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{otras}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="10"/>
+            </element>
+
+            <!-- Línea separadora antes de totales -->
+            <element kind="line" uuid="00000000-0000-0000-0000-000000000070"
+                     x="10" y="330" width="336" height="1">
+                <pen lineWidth="1.5" lineColor="#000000"/>
+            </element>
+
+            <!-- ===== Total Descuentos ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000080"
+                     x="10" y="345" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[Total Descuentos]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000081"
+                     x="140" y="345" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <!-- Usa $F{totalDescuentos} si viene de la BD; si no, cambia por $V{totalDescuentosCalc} -->
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000082"
+                     x="175" y="343" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{totalDescuentos}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="10" isBold="true"/>
+            </element>
+
+            <!-- ===== Salario Neto ===== -->
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000090"
+                     x="10" y="390" width="120" height="18" vTextAlign="Middle">
+                <text><![CDATA[Salario Neto]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <element kind="staticText" uuid="00000000-0000-0000-0000-000000000091"
+                     x="140" y="390" width="30" height="18" vTextAlign="Middle">
+                <text><![CDATA[RD$]]></text>
+                <font fontName="SansSerif" size="11" isBold="true" isItalic="true"/>
+            </element>
+            <!-- Usa $F{salarioNeto} si viene de la BD; si no, cambia por $V{salarioNetoCalc} -->
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000092"
+                     x="175" y="388" width="160" height="20" vTextAlign="Middle" hTextAlign="Right"
+                     pattern="#,##0.00" blankWhenNull="true">
+                <expression><![CDATA[$F{salarioNeto}]]></expression>
+                <box padding="3">
+                    <pen lineWidth="0.75" lineColor="#999999"/>
+                </box>
+                <font fontName="SansSerif" size="11" isBold="true"/>
+            </element>
+
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="20">
+            <element kind="textField" uuid="00000000-0000-0000-0000-000000000099"
+                     x="0" y="0" width="356" height="15"
+                     hTextAlign="Right" evaluationTime="Report">
+                <expression><![CDATA["Página " + $V{PAGE_NUMBER}]]></expression>
+                <font fontName="SansSerif" size="8"/>
+            </element>
+        </band>
+    </pageFooter>
+
+</jasperReport>
