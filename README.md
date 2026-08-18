@@ -1,8 +1,8 @@
-# Sistema de Nómina y Gestión de Empleados
+# Sistema de Nómina y Gestión de Empleados (NOMIPRO)
 
 ## Descripción
 
-El **Sistema de Nómina y Gestión de Empleados** es una aplicación de escritorio desarrollada para facilitar la administración de empleados, usuarios, departamentos y procesos relacionados con la gestión de nómina de una empresa.
+*NOMIPRO* es una aplicación de escritorio desarrollada para facilitar la administración de empleados, usuarios, departamentos y procesos relacionados con la gestión de nómina de una empresa.
 
 El sistema permite centralizar la información de los empleados, controlar el acceso de los usuarios según sus roles y gestionar diferentes procesos administrativos relacionados con recursos humanos y nómina.
 
