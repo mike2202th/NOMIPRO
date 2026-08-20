@@ -2,7 +2,9 @@
 
 ## Descripción
 
-<img width="1024" height="559" alt="logo sistema" src="https://github.com/user-attachments/assets/e50e8c90-ad80-4e97-b53f-b957398f15d1" />
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e50e8c90-ad80-4e97-b53f-b957398f15d1" alt="Logo Sistema de Nómina" width="450">
+</p>
 
 
 *NOMIPRO* es una aplicación de escritorio desarrollada para facilitar la administración de empleados, usuarios, departamentos y procesos relacionados con la gestión de nómina de una empresa.
